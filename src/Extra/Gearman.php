@@ -44,7 +44,7 @@ class Gearman
     /**
      * @return ReloadCommand
      */
-    protected static function command()
+    protected static function command(): ReloadCommand
     {
         if (!static::$reload)
         {
@@ -54,10 +54,14 @@ class Gearman
         return static::$reload;
     }
 
-    public static function reload($name, ...$args)
+    /**
+     * @param string $name
+     * @param array  $args
+     */
+    public static function reload($name, array $args)
     {
         static::client()
-            ->doBackground(static::command(), JSON::encode([
+            ->doBackground(static::command()->getName(), JSON::encode([
                 'name' => $name,
                 'args' => $args
             ]));
