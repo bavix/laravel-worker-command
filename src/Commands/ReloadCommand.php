@@ -49,12 +49,14 @@ class ReloadCommand extends WorkerCommand
 
         foreach ($wordload as $name => $args)
         {
+            $json = JSON::encode($args);
+
             Gearman::client()->doBackground(
                 $this->fnReload($name),
-                JSON::encode($args)
+                $json
             );
 
-            $this->info('name: ' . $name . ' args: ' . $args);
+            $this->info('name: ' . $name . ' args: ' . $json);
         }
     }
 
