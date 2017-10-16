@@ -58,7 +58,7 @@ abstract class WorkerCommand extends Command
      *
      * @return string
      */
-    protected function fnReload($name = null): string
+    public function fnReload($name = null): string
     {
         return ($name ?: $this->getName()) . '-' . __FUNCTION__;
     }
@@ -70,7 +70,7 @@ abstract class WorkerCommand extends Command
      * @throws Invalid
      * @throws Path
      */
-    protected function fnUpdate(\GearmanJob $job)
+    public function fnUpdate(\GearmanJob $job)
     {
         $this->config->cleanup();
 
