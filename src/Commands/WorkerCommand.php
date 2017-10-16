@@ -100,16 +100,13 @@ abstract class WorkerCommand extends Command
         {
             $this->worker->addFunction(
                 $this->fnReload(),
-                Closure::fromCallable([$this, 'fnUpdate'])
+                [$this, 'fnUpdate']
             );
         }
 
         foreach ($this->map as $name => $callable)
         {
-            $this->worker->addFunction(
-                $name,
-                Closure::fromCallable($callable)
-            );
+            $this->worker->addFunction($name, $callable);
         }
 
         while ($this->worker->work())
