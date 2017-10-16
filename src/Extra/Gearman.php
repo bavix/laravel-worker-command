@@ -55,16 +55,15 @@ class Gearman
     }
 
     /**
-     * @param string $name
-     * @param array  $args
+     * @param array $config
      */
-    public static function reload($name, array $args)
+    public static function reload(array $config)
     {
         static::client()
-            ->doBackground(static::command()->getName(), JSON::encode([
-                'name' => $name,
-                'args' => $args
-            ]));
+            ->doBackground(
+                static::command()->getName(),
+                JSON::encode($config)
+            );
     }
 
     /**
