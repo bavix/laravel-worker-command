@@ -8,6 +8,8 @@ use Bavix\Helpers\JSON;
 class ReloadCommand extends WorkerCommand
 {
 
+    const PROP_FN_PUSH_RELOAD = 'pushReload';
+
     /**
      * @var string
      */
@@ -28,7 +30,10 @@ class ReloadCommand extends WorkerCommand
      */
     public function __construct()
     {
-        $this->map['pushReload'] = [$this, 'pushReload'];
+        $this->map[self::PROP_FN_PUSH_RELOAD] = [
+            $this,
+            self::PROP_FN_PUSH_RELOAD
+        ];
 
         parent::__construct();
     }

@@ -42,26 +42,13 @@ class Gearman
     }
 
     /**
-     * @return ReloadCommand
-     */
-    protected static function command(): ReloadCommand
-    {
-        if (!static::$reload)
-        {
-            static::$reload = new ReloadCommand();
-        }
-
-        return static::$reload;
-    }
-
-    /**
      * @param array $config
      */
     public static function reload(array $config)
     {
         static::client()
             ->doBackground(
-                static::command()->getName(),
+                ReloadCommand::PROP_FN_PUSH_RELOAD,
                 JSON::encode($config)
             );
     }
