@@ -24,11 +24,6 @@ class ReloadCommand extends WorkerCommand
     protected $name = 'bx:reload';
 
     /**
-     * @var array
-     */
-    protected $rows = [];
-
-    /**
      * ReloadCommand constructor.
      */
     public function __construct()
@@ -43,7 +38,7 @@ class ReloadCommand extends WorkerCommand
      *
      * @return void
      */
-    protected function pushReload(\GearmanJob $job)
+    public function pushReload(\GearmanJob $job)
     {
         $wordload = JSON::decode($job->workload());
 
