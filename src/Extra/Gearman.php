@@ -2,8 +2,10 @@
 
 namespace Bavix\Extra;
 
+use Bavix\Commands\ReloadCommand;
 use Bavix\Gearman\Client;
 use Bavix\Gearman\Worker;
+use Bavix\Helpers\JSON;
 
 class Gearman
 {
@@ -19,6 +21,11 @@ class Gearman
     protected static $client;
 
     /**
+     * @var ReloadCommand
+     */
+    protected static $reload;
+
+    /**
      * @param Client|Worker $obj
      */
     protected static function addServer($obj)
@@ -32,6 +39,28 @@ class Gearman
                 $server['port'] ?? 4730
             );
         }
+    }
+
+    /**
+     * @return ReloadCommand
+     */
+    protected static function command()
+    {
+        if (!static::$reload)
+        {
+            static::$reload = new ReloadCommand();
+        }
+
+        return static::$reload;
+    }
+
+    public static function reload($name, ...$args)
+    {
+        static::client()
+            ->doBackground(static::command(), JSON::encode([
+                'name' => $name,
+                'args' => $args
+            ]));
     }
 
     /**
