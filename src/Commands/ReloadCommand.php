@@ -45,18 +45,35 @@ class ReloadCommand extends WorkerCommand
      */
     public function pushReload(\GearmanJob $job)
     {
-        $wordload = JSON::decode($job->workload());
+        $workload = $job->workload();
 
-        foreach ($wordload as $name => $args)
+        $directoryIterator = new \RecursiveDirectoryIterator(
+            app()->path('Console/Commands'),
+            \RecursiveDirectoryIterator::SKIP_DOTS
+        );
+
+        $iterator = new \RecursiveIteratorIterator($directoryIterator);
+
+        /**
+         * @var $file \SplFileInfo
+         */
+        foreach ($iterator as $file)
         {
-            $json = JSON::encode($args);
+            $namespace = \App\Console\Commands::class;
+            $name = str_replace('.php', '', $file->getFilename());
+            $class = $namespace . '\\' . $name;
+
+            /**
+             * @var WorkerCommand $object
+             */
+            $object = new $class;
 
             Gearman::client()->doBackground(
-                $this->fnReload($name),
-                $json
+                $this->fnReload($object->getName()),
+                $workload
             );
 
-            $this->info('name: ' . $name . ' args: ' . $json);
+            $this->info('class: ' . $name . ', args: ' . $workload);
         }
     }
 
