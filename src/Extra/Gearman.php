@@ -42,14 +42,14 @@ class Gearman
     }
 
     /**
-     * @param array $config
+     * @param string|array $config
      */
-    public static function reload(array $config)
+    public static function reload($config)
     {
         static::client()
             ->doBackground(
                 ReloadCommand::PROP_FN_PUSH_RELOAD,
-                JSON::encode($config)
+                JSON::encode((array)$config)
             );
     }
 
