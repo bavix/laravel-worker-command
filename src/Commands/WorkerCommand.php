@@ -8,6 +8,7 @@ use Bavix\Exceptions\PermissionDenied;
 use Bavix\Extra\Gearman;
 use Bavix\Config\Config;
 use Bavix\Gearman\Worker;
+use Bavix\Helpers\Arr;
 use Bavix\Helpers\Closure;
 use Bavix\Helpers\JSON;
 use Illuminate\Console\Command;
@@ -81,6 +82,8 @@ abstract class WorkerCommand extends Command
 
         foreach ($workload as $config)
         {
+            $this->info('update config: ' . $config);
+
             \config([
                 $config => $this->config
                     ->get($config)
