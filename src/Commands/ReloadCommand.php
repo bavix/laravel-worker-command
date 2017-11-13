@@ -45,10 +45,11 @@ class ReloadCommand extends WorkerCommand
      */
     public function pushReload(\GearmanJob $job)
     {
+        $this->info(__FUNCTION__);
         $workload = $job->workload();
 
         $directoryIterator = new \RecursiveDirectoryIterator(
-            app()->path('Console/Commands'),
+            app_path('Console/Commands'),
             \RecursiveDirectoryIterator::SKIP_DOTS
         );
 
